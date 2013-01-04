@@ -278,7 +278,7 @@ class plgVmPaymentPaymill extends vmPSPlugin {
 			$pm_token = $session->get('pm_token');
 
 			//define NEW PM_VARS
-			define('API_HOST', 'https://api.paymill.de/v1/');
+			define('API_HOST', 'https://api.paymill.com/v2/');
 			define('API_KEY', $method->private_key);
 			
 			if ($pm_token) {
@@ -464,7 +464,7 @@ class plgVmPaymentPaymill extends vmPSPlugin {
 		        		</tr>
 		        	</table>
 		        	<input type="hidden" id="pm_amount" name="pm_amount" value="'.$cart->pricesUnformatted["billTotal"].'" />
-		        	<input type="text" id="paymillTokenField" name="paymillToken" />
+		        	<input type="hidden" id="paymillTokenField" name="paymillToken" />
 		        	<input type="hidden" id="pm_email" name="pm_email" />
 		        	<input type="hidden" id="root_url" value="'.JURI::root().'" />
 		        	<input type="hidden" id="formerror" />
