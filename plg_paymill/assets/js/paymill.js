@@ -17,8 +17,6 @@ $(document).ready(function(){
 function modifyForCC() {
 	var cc_id = $('#vm_paymentmethod_id').val();
 	if($('input:radio[name=virtuemart_paymentmethod_id]:checked').val() == cc_id) {
-		D("IST CC");
-		
 		$('#paymentForm').submit(function(e) {
 			e.preventDefault();
 			submitPayment();
