@@ -5,7 +5,6 @@ defined('_JEXEC') or die('Direct Access to ' . basename(__FILE__) . ' is not all
 /**
  * @version $Id: paymill.php,v 1.0
  *
- * @author Max Kimmel
  * @package VirtueMart
  * @subpackage payment
  * @copyright Copyright (C) 2004-2008 soeren - All rights reserved.
@@ -131,7 +130,7 @@ class plgVmPaymentPaymill extends vmPSPlugin {
 		$html .= '<div style="text-align: left; margin-top: 25px; margin-bottom: 25px;">';
 		$html .= 'Ihre Bestellung ist bei uns eingegangen und wird umgehend von uns bearbeitet.';
 		$html .= '</div>';
-           
+
         // Prepare data that should be stored in the database
         $dbValues = array();
         $dbValues['order_number'] = $order['details']['BT']->order_number;
@@ -244,9 +243,9 @@ class plgVmPaymentPaymill extends vmPSPlugin {
             exit;
         }
         $vendorId = 0;
-        
+
         $payment = $this->getDataByOrderId($virtuemart_order_id);
-        
+
         $method = $this->getVmPluginMethod($payment->virtuemart_paymentmethod_id);
         if (!$this->selectedThisElement($method->payment_element)) {
             return false;
@@ -269,7 +268,7 @@ class plgVmPaymentPaymill extends vmPSPlugin {
                 require( JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php' );
             $modelOrder = new VirtueMartModelOrders();
             $order['order_status'] = $new_status;
-            $order['comments'] = $new_comment;           
+            $order['comments'] = $new_comment;
             $order['virtuemart_order_id'] = $virtuemart_order_id;
             $order['customer_notified'] = 0;
 
@@ -280,10 +279,10 @@ class plgVmPaymentPaymill extends vmPSPlugin {
 			//define NEW PM_VARS
 			define('API_HOST', 'https://api.paymill.com/v2/');
 			define('API_KEY', $method->private_key);
-			
+
 			if ($pm_token) {
 				require "components/com_paymillapi/lib/Services/Paymill/Transactions.php";
-			
+
 				$transactionsObject = new Services_Paymill_Transactions(API_KEY, API_HOST);
 				$params = array(
 					'amount' => $totalInPaymentCurrency * 100,
@@ -292,21 +291,21 @@ class plgVmPaymentPaymill extends vmPSPlugin {
 					'description' => $address->email
 				);
 				$transaction = $transactionsObject->create($params);
-				
+
 				$pm_status = $transaction['status'];
-				
+
 				$q = "UPDATE #__paymill SET status = '".$pm_status."', email = '".$address->email."' WHERE token = '" .$pm_token. "'";
 		        $db->setQuery( $q );
 		        $db->query();
-			
+
 				$new_status = 'C';
-				$modelOrder->updateStatusForOneOrder($virtuemart_order_id, $order, true);		
+				$modelOrder->updateStatusForOneOrder($virtuemart_order_id, $order, true);
 			}
 			else {
 				echo "Ihre Kreditkartenzahlung war leider fehlerhaft. Bitte überprüfen Sie Ihre Eingabe.<br /><br /><a href='".JURI::root()."/component/virtuemart/cart/editpayment?Itemid=0'>Zurück zur Bezahlung</a>";
 			}
 			// END NEW PM_VARS
-			
+
             //$modelOrder->updateStatusForOneOrder($virtuemart_order_id, $order, true);
         }
         return true;
@@ -387,7 +386,7 @@ class plgVmPaymentPaymill extends vmPSPlugin {
 			}
 		}
         return $this->OnSelectCheck($cart);
-		
+
     }
 
     /**

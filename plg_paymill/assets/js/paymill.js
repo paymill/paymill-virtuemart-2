@@ -7,7 +7,7 @@ $(document).ready(function(){
 		or[i].checked = false;
 	}
 	//modifyForCC();
-	
+
 	$('input:radio[name=virtuemart_paymentmethod_id]').click(function() {
 		modifyForCC();
 	});
@@ -40,15 +40,15 @@ function returnResponse(error, result) {
 		$("#paymentErrors").html("");
 		var token = result.token;
 		$('#pm_email').val($('#email_field').val());
-		
+
 		$("#paymillTokenField").val(token);
 		if($('#formerror').val() != 1) {
 	        $.ajax({
 	        	url: 		root + "index.php?option=com_paymillapi&task=saveToken&token=" + token,
 	        	complete:   function(result) {
-				        		$('#loader').css('display', 'none'); 
+				        		$('#loader').css('display', 'none');
 				        		$('#result').css('display', 'block');
-			
+
 			        			document.choosePaymentRate.submit();
 				        }
 	        });
@@ -67,21 +67,21 @@ function checkBridge() {
         do_check = false;
     } else {
         setTimeout('checkBridge()', 1000);
-        
+
         setTimeout(function() {
-        	do_check = false; 
+        	do_check = false;
         	document.getElementById('iframeerror').style.display = 'none';
         }, 5000);
     }
 }
 
-function submitPayment() {	
+function submitPayment() {
 	//show loader gif
 	$("#loadergif").css("display", "inline");
 	$("#loadergif").insertBefore("button.vm-button-correct:submit");
 	$("button.vm-button-correct:submit").attr("disabled", true);
 	$("#loader").css("display", "block");
-	
+
 	if (false == paymill.validateCardNumber($("#cardnumber").val())) {
 		$("#loader").css("display", "none");
 		$("#paymentErrors").html("<span style='color: #ff0000'>Ungültige Kartennummer</span>");
@@ -104,6 +104,8 @@ function submitPayment() {
 		return false;
 	}
 	paymill.createToken({
+		amount_int:$("pm_amount").val(),
+		currency:"eur",
 		number:$("#cardnumber").val(),
 		exp_month:$("#cardExpMonth").val(),
 		exp_year:$("#cardExpYear").val(),
